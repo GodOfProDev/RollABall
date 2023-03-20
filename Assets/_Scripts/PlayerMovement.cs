@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private GameInput gameInput;
+    [SerializeField] private GameInput _gameInput;
+    [SerializeField] private float _moveSpeed = 7;
+    [SerializeField] private float _jumpForce = 100;
 
     private Rigidbody _rigidbody;
 
@@ -14,16 +13,26 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void Start()
+    {
+        _gameInput.OnJump += (sender, args) => HandleJump();
+    }
+
+    private void FixedUpdate()
     {
         HandleMovement();
     }
 
     private void HandleMovement()
     {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = _gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
         
-        _rigidbody.AddForce(moveDir, ForceMode.Impulse);
+        _rigidbody.AddForce(moveDir * _moveSpeed, ForceMode.Impulse);
+    }
+
+    private void HandleJump()
+    {
+        _rigidbody.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
     }
 }
