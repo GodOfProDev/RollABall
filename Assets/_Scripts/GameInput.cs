@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameInput : MonoBehaviour
@@ -8,6 +6,7 @@ public class GameInput : MonoBehaviour
     private PlayerInputActions _playerInputActions;
 
     public event EventHandler OnJump;
+    public event EventHandler OnDash;
 
     private void Awake()
     {
@@ -15,6 +14,7 @@ public class GameInput : MonoBehaviour
         _playerInputActions.Player.Enable();
 
         _playerInputActions.Player.Jump.performed += context => OnJump?.Invoke(this, EventArgs.Empty);
+        _playerInputActions.Player.Dash.performed += context => OnDash?.Invoke(this, EventArgs.Empty);
     }
     
     public Vector2 GetMovementVectorNormalized()

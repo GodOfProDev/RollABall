@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _gameInput.OnJump += (sender, args) => HandleJump();
+        _gameInput.OnDash += (sender, args) => HandleDash();
     }
 
     private void FixedUpdate()
@@ -34,5 +35,11 @@ public class PlayerMovement : MonoBehaviour
     private void HandleJump()
     {
         _rigidbody.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
+    }
+
+    private void HandleDash()
+    {
+        // Nothing for now until we got proper camera system
+        print("Dash");
     }
 }
